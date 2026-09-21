@@ -1,45 +1,79 @@
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content below * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
-<!-- * * * * * * * to get started with your project! * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-<main class="main">
-
-  <div class="app-wrapper">
-    <div class="color-overlay" [style.background-color]="currentMood()?.secondaryColor + '66'"></div>
-  
+<div class="app-wrapper">
   <div id="pixie-container"></div>
 
-  <div class="container">
-    <h1>{{ title() }}</h1>
+  <div class="container main-card">
+    <header class="header">
+      <h1>{{ title() }}</h1>
+      <p class="subtitle">Organisez et suivez vos objectifs quotidiens</p>
+    </header>
 
-    <button class="btn-magic" (click)="pickRandomMood($event)">
-      Invoquer la magie ✨
-    </button>
-
-    @if (showCard() && currentMood(); as mood) {
-      <div class="mood-card" [style.background]="'linear-gradient(135deg,' + mood.color + ',' + mood.secondaryColor + ')'">
-        <span class="emoji">{{ mood.emoji }}</span>
-        <h2>{{ mood.label }}</h2>
-        <em>"{{ mood.quote }}"</em>
+    <!-- Progression -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span>Progression globale</span>
+        <span class="percentage">{{ completionPercentage() }}%</span>
       </div>
-    }
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" [style.width.%]="completionPercentage()"></div>
+      </div>
+    </div>
+
+    <!-- Formulaire d'ajout -->
+    <form (submit)="addTask(); $event.preventDefault()" class="add-task-form">
+      <div class="input-group">
+        <input 
+          type="text" 
+          placeholder="Ajouter une nouvelle tâche..." 
+          [value]="newTaskTitle()" 
+          (input)="newTaskTitle.set($any($event.target).value)" 
+        />
+        
+        <select [value]="selectedCategory()" (change)="selectedCategory.set($any($event.target).value)">
+          <option value="work">💼 Travail</option>
+          <option value="personal">🏠 Personnel</option>
+          <option value="urgent">🔥 Urgent</option>
+          <option value="learning">📚 Apprentissage</option>
+        </select>
+
+        <button type="submit" class="btn-add">Ajouter</button>
+      </div>
+    </form>
+
+    <!-- Filtres -->
+    <div class="filters">
+      <button [class.active]="filter() === 'all'" (click)="setFilter('all')">Toutes</button>
+      <button [class.active]="filter() === 'pending'" (click)="setFilter('pending')">À faire</button>
+      <button [class.active]="filter() === 'completed'" (click)="setFilter('completed')">Terminées</button>
+    </div>
+
+    <!-- Liste des tâches -->
+    <div class="tasks-list">
+      @for (task of filteredTasks(); track task.id) {
+        <div class="task-item" [class.completed]="task.completed">
+          <label class="checkbox-container">
+            <input 
+              type="checkbox" 
+              [checked]="task.completed" 
+              (change)="toggleTask(task.id)" 
+            />
+            <span class="checkmark"></span>
+          </label>
+
+          <span class="talent-badge" [style.background-color]="categoryConfig[task.category].color + '22'" [style.color]="categoryConfig[task.category].color">
+            {{ categoryConfig[task.category].emoji }} {{ categoryConfig[task.category].label }}
+          </span>
+
+          <span class="task-title">{{ task.title }}</span>
+
+          <button class="btn-delete" (click)="deleteTask(task.id)" title="Supprimer la tâche">
+            🗑️
+          </button>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <span>Aucune tâche enregistrée pour le moment.</span>
+        </div>
+      }
+    </div>
   </div>
 </div>
-
-</main>
-
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * is only a placeholder * * * * * * * * * * * -->
-<!-- * * * * * * * * * * and can be replaced.  * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * End of Placeholder  * * * * * * * * * * * * -->
-<!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
-
-
-<router-outlet />

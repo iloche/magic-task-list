@@ -1,75 +1,249 @@
-/* --- À mettre dans app.scss --- */
-.app-wrapper {
-  position: fixed;
-  inset: 0;
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+$font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+.main-card {
+  font-family: $font-main;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 640px;
+  max-height: 85vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: url('../assets/pixie-hollow.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2.5rem;
+  overflow-y: auto;
+  color: #f8fafc;
   
-  transition: all 1s ease;
+  /* Glassmorphism Luxueux & Sombre */
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 
+    0 30px 60px -12px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  
+  /* Scrollbar élégante */
+  &::-webkit-scrollbar { width: 6px; }
+  &::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+  }
 }
 
-.color-overlay {
-  position: absolute;
-  inset: 0;
-  transition: background-color 1.5s ease;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.container {
-    padding: 3rem;
-  border-radius: 40px;
+/* En-tête Sobre & Aérien */
+.header {
   text-align: center;
-  position: relative;
-  z-index: 10;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  
+  h1 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #ffffff 30%, rgba(255, 255, 255, 0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .subtitle {
+    margin-top: 0.4rem;
+    color: #94a3b8;
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
 }
 
-h1 {
-  font-family: 'Princess Sofia', cursive; /* N'oublie pas le lien Google Font dans index.html */
-  font-size: 3.5rem;
-  color: white;
-  text-shadow: 0 0 15px rgba(153, 255, 51, 0.5);
+/* Jauge de Progression Féerique & Épurée */
+.progress-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 1rem;
+  border-radius: 14px;
+
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #cbd5e1;
+    margin-bottom: 0.6rem;
+
+    .percentage {
+      color: #fbbf24;
+      font-weight: 600;
+    }
+  }
+
+  .progress-bar-bg {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #38bdf8, #818cf8, #fbbf24);
+      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.5);
+    }
+  }
 }
 
-.btn-magic {
-  padding: 15px 30px;
-  border-radius: 50px;
-  border: none;
-  background: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: transform 0.2s;
-  &:hover { transform: scale(1.1); }
+/* Formulaire Minimaliste */
+.add-task-form .input-group {
+  display: flex;
+  gap: 0.6rem;
+
+  input, select, button {
+    font-family: $font-main;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    outline: none;
+    background: rgba(15, 23, 42, 0.4);
+    color: #f8fafc;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: rgba(251, 191, 36, 0.6);
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
+      background: rgba(15, 23, 42, 0.6);
+    }
+  }
+
+  input {
+    flex: 1;
+    &::placeholder { color: #64748b; }
+  }
+
+  select {
+    cursor: pointer;
+    option { background: #0f172a; color: #f8fafc; }
+  }
+
+  .btn-add {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.9), rgba(245, 158, 11, 0.9));
+    color: #0f172a;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem 1.25rem;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.35);
+    }
+
+    &:active { transform: translateY(0); }
+  }
 }
 
-.mood-card {
-  margin-top: 2rem;
-  padding: 2rem;
-  border-radius: 30px;
-  color: white;
-  animation: popIn 0.5s both;
+/* Filtres Style "Tabs" Moderne */
+.filters {
+  display: flex;
+  gap: 0.25rem;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.25rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+
+  button {
+    font-family: $font-main;
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: #94a3b8;
+    padding: 0.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &.active {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    &:hover:not(.active) {
+      color: #cbd5e1;
+    }
+  }
 }
 
-@keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+/* Cartes de Tâches Somptueuses */
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-@keyframes slowPan {
-  0% { background-position: center; scale: 1; }
-  50% { background-position: 52% 48%; scale: 1.05; }
-  100% { background-position: center; scale: 1; }
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem 1.1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateX(2px);
+  }
+
+  &.completed {
+    opacity: 0.45;
+    background: rgba(0, 0, 0, 0.15);
+    .task-title { text-decoration: line-through; color: #94a3b8; }
+  }
+
+  .task-title {
+    flex: 1;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #f1f5f9;
+  }
+
+  /* Badge Talent Élégant */
+  .talent-badge {
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.725rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Bouton Supprimer Discret */
+  .btn-delete {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+    opacity: 0.3;
+    transition: all 0.2s;
+    padding: 0.2rem;
+    border-radius: 4px;
+
+    &:hover {
+      opacity: 1;
+      background: rgba(239, 68, 68, 0.15);
+    }
+  }
 }
 
-.app-wrapper {
-  animation: slowPan 20s infinite ease-in-out;
+.empty-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: #64748b;
+  font-size: 0.875rem;
+  font-weight: 400;
 }
