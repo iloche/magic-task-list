@@ -1,5 +1,3 @@
-/* Dans src/styles.scss */
-
 html, body {
   margin: 0;
   padding: 0;
@@ -7,6 +5,7 @@ html, body {
   height: 100%;
   overflow: hidden; /* Empêche tout scroll parasite */
   background-color: #5a1850; /* Couleur de secours pour éviter un flash blanc */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .pixie-dust {
